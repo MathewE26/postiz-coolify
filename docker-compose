@@ -76,9 +76,9 @@ services:
       - postiz_uploads:/uploads/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.postiz-api.rule=Host(`postiz.hewhealth.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.postiz-api.rule=Host(\`postiz.hewhealth.com\`) && PathPrefix(\`/api\`)"
       - "traefik.http.routers.postiz-api.service=postiz-svc"
-      - "traefik.http.routers.postiz-app.rule=Host(`postiz.hewhealth.com`)"
+      - "traefik.http.routers.postiz-app.rule=Host(\`postiz.hewhealth.com\`)"
       - "traefik.http.routers.postiz-app.service=postiz-svc"
       - "traefik.http.services.postiz-svc.loadbalancer.server.port=5000"
     depends_on:
@@ -86,13 +86,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - wget -qO- http://127.0.0.1:5000/
-      interval: 5s
-      timeout: 20s
-      retries: 10
 
   postgres:
     image: postgres:14.5
