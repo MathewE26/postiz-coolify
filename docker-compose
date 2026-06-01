@@ -1,6 +1,6 @@
 services:
   postiz:
-    image: ghcr.io/gitroomhq/postiz-app:latest
+    image: ghcr.io/gitroomhq/postiz-app:v2.11.2
     environment:
       - MAIN_URL=https://postiz.hewhealth.com
       - FRONTEND_URL=https://postiz.hewhealth.com
@@ -9,10 +9,11 @@ services:
       - DATABASE_URL=postgresql://postgres:${SERVICE_PASSWORD_postgres}@postgres:5432/${POSTGRESQL_DATABASE:-postiz-db}
       - REDIS_URL=redis://default:${SERVICE_PASSWORD_redis}@redis:6379
       - BACKEND_INTERNAL_URL=http://localhost:3000
+      - IS_GENERAL=true
+      - DISABLE_REGISTRATION=false
       - STORAGE_PROVIDER=${STORAGE_PROVIDER:-local}
       - UPLOAD_DIRECTORY=${UPLOAD_DIRECTORY:-/uploads}
       - NEXT_PUBLIC_UPLOAD_DIRECTORY=${NEXT_PUBLIC_UPLOAD_DIRECTORY:-/uploads}
-      - IS_GENERAL=true
       - NX_ADD_PLUGINS=${NX_ADD_PLUGINS:-false}
     volumes:
       - postiz_config:/config/
@@ -37,7 +38,7 @@ services:
   postgres:
     image: postgres:14.5
     volumes:
-      - postiz_postgresql_data:/var/lib/postgresql/data
+      - postiz_pg_v2:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${SERVICE_PASSWORD_postgres}
